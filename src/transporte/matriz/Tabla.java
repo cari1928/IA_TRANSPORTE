@@ -1,10 +1,10 @@
 package transporte.matriz;
 
-
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
 import transporte.arbol.GrafoHashMap;
 import transporte.grafo.GestionBusqueda;
 import transporte.grafo.TDAInfo;
@@ -12,22 +12,23 @@ import transporte.grafo.Transporte;
 
 /**
  * Interfaz encargada de pedir la informacion del grafo
- * @author shen
+ *
  * @author alphaGo
  */
-public class Tabla extends javax.swing.JFrame 
-{
+public class Tabla extends javax.swing.JFrame {
 
-   CcontollerTable pasa = null;
-   private GestionBusqueda manager;
-   private Transporte trans;
-   private ModeloTabla redGrafo;
+    CcontrollerTable pasa = null;
+    TableModel cNodos;
+    private GestionBusqueda manager;
+    private Transporte trans;
+    private ModeloTabla redGrafo;
 
-    public Tabla() 
-    {
+    public Tabla(TableModel cNodos) {
         initComponents();
         setLocationRelativeTo(null);
-        pasa = new CcontollerTable(this);          
+        this.cNodos = cNodos;                   //Guarda descripción de los nodos
+        pasa = new CcontrollerTable(this);
+        setVisible(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -182,31 +183,33 @@ public class Tabla extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        String dato=Dimencion.getText();
-        
-        if(dato.length()>0 )
-            pasa.Crear_Matriz(Matriz, Integer.parseInt(dato.trim() ));
-        else
-            JOptionPane.showMessageDialog(null,"Ingresa Un numero","Aviso",JOptionPane.ERROR_MESSAGE);
+
+        String dato = Dimencion.getText();
+
+        if (dato.length() > 0) {
+            pasa.Crear_Matriz(Matriz, Integer.parseInt(dato.trim()), "matrix");
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingresa Un numero", "Aviso", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     //metodo que lee la tabla y la guarda en el archivo
     private void Guardar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Guardar
-        
 
-        if (JOptionPane.showInputDialog("Es corecta la matriz? \nSi o No").equalsIgnoreCase("si")) 
-        {
+
+        if (JOptionPane.showInputDialog("Es corecta la matriz? \nSi o No").equalsIgnoreCase("si")) {
             JOptionPane.showMessageDialog(null, "Matriz Guardada");
-            pasa.printArray( pasa.getArray() );
-            
-            trans=new Transporte(pasa.getArray() );
+            pasa.printArray(pasa.getArray());
+
+            trans = new Transporte(pasa.getArray());
             try {
                 //trans.writeAll();
                 //trans.readSecuential();
                 System.out.println(trans.readMasterRandom(1));
-            } catch (IOException ex) { Logger.getLogger(Tabla.class.getName()).log(Level.SEVERE, null, ex);}
-                   
+            } catch (IOException ex) {
+                Logger.getLogger(Tabla.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
 
 
@@ -226,7 +229,7 @@ public class Tabla extends javax.swing.JFrame
         String Nodo_Origen = Origen.getText();
         String Nodo_Destino = Destino.getText();
         TDAInfo info = new TDAInfo(null, Nodo_Origen, Nodo_Destino, 0);
-        
+
         manager = new GestionBusqueda(this, info, nodos);
         if (Metodo.equals("Anchura")) {
             //Llamar a l metodo de anchura
@@ -236,21 +239,17 @@ public class Tabla extends javax.swing.JFrame
         }
     }//GEN-LAST:event_Buscar
 
-
-    public CcontollerTable getTable() 
-    {
+    public CcontrollerTable getTable() {
         return pasa;
     }
-    
-    public ModeloTabla getRedGrafo()
-    {
+
+    public ModeloTabla getRedGrafo() {
         return redGrafo;
     }
-    
-   public void setRedGrafo( ModeloTabla tipo)
-   {
-       this.redGrafo=tipo;
-   }
+
+    public void setRedGrafo(ModeloTabla tipo) {
+        this.redGrafo = tipo;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Buscar;
     private javax.swing.JButton Carga_Matriz;

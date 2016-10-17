@@ -6,24 +6,25 @@ import java.util.LinkedList;
 import java.util.Queue;
 import transporte.arbol.GrafoHashMap;
 import transporte.matriz.Tabla;
+import transporte.matriz.TablaNodos;
 
 /**
  * * Clase encargada de escribir en el archivo maestro
  *
  * @author AlphaGo
  */
-public class GestionBusqueda implements Busqueda 
-{
+public class GestionBusqueda implements Busqueda {
 
     //Atributos de la clase
     private Tabla table = null;
+    private TablaNodos nodeTable = null;
     private TDAInfo grafo = null;
     //-----------Elementos para búsqueda por anchura--------------
     private Queue<String> cola;
     private ArrayList listRoute;
     private ArrayList ruta;
     GrafoHashMap nodos;
-    private  ArrayList <String> list ;
+    private ArrayList<String> list;
     //------------------------------------------------------------
     private int cnodos;
 
@@ -34,7 +35,7 @@ public class GestionBusqueda implements Busqueda
         cola = new LinkedList();
         ruta = new ArrayList();
         listRoute = new ArrayList();
-        cnodos=0;
+        cnodos = 0;
         list = new ArrayList();
         list.add("");
 
@@ -42,12 +43,24 @@ public class GestionBusqueda implements Busqueda
         String[][] tableData = this.table.getRedGrafo().getArray();
         this.nodos = fillHashMap(tableData);
     }
-    
 
- 
+    public GestionBusqueda(TablaNodos pTable, TDAInfo pGrafo, GrafoHashMap nodos) {
+        this.nodeTable = pTable;
+        this.grafo = pGrafo;
+        this.nodos = nodos;
+        cola = new LinkedList();
+        ruta = new ArrayList();
+        listRoute = new ArrayList();
+        cnodos = 0;
+        list = new ArrayList();
+        list.add("");
 
-    public GrafoHashMap fillHashMap(String[][] array) 
-    {
+        //Se llena hashMap
+        String[][] tableData = this.table.getRedGrafo().getArray();
+        this.nodos = fillHashMap(tableData);
+    }
+
+    public GrafoHashMap fillHashMap(String[][] array) {
         GrafoHashMap map = new GrafoHashMap();
         char origen, destino;
         for (byte i = 0; i < array.length; i++) {
@@ -61,10 +74,8 @@ public class GestionBusqueda implements Busqueda
         }
         return map;
     }
-   
 
-    public void printRuta(ArrayList pList) 
-    {
+    public void printRuta(ArrayList pList) {
         String cad = "";
         for (int i = 0; i < pList.size(); i++) {
             cad += pList.get(i) + "->";
@@ -73,8 +84,7 @@ public class GestionBusqueda implements Busqueda
     }
 
     @Override
-    public void anchura(String s, boolean flagRoot) 
-    {
+    public void anchura(String s, boolean flagRoot) {
         String values;
         String[] parts;
         ArrayList list = new ArrayList();
@@ -83,26 +93,21 @@ public class GestionBusqueda implements Busqueda
             cola.add(s); //se inserta
         }
 
-        if (cola.size() > 0) 
-        {
+        if (cola.size() > 0) {
             s = cola.poll();
             ruta.add(s); //se va creando el camino
-            if (!s.equals(grafo.getDestino())) 
-            { //no es el destino
+            if (!s.equals(grafo.getDestino())) { //no es el destino
                 //se obtienen los nodos hijos
                 values = nodos.llaves.values() + "";
                 parts = values.split(" ");
                 //Obtiene los nodos con los que se conecta directamente
-                for (int i = 0; i < parts.length; i++) 
-                {
-                    if (parts[i].equals("[" + s + "]")) 
-                    {
+                for (int i = 0; i < parts.length; i++) {
+                    if (parts[i].equals("[" + s + "]")) {
                         list.add(parts[i + 1].substring(1, 2));
                     }
                 }
                 Collections.sort(list); //ordena alfabéticamente los elementos de la lista
-                for (int i = 0; i < list.size(); i++) 
-                { //inserta los hijos en el árbol
+                for (int i = 0; i < list.size(); i++) { //inserta los hijos en el árbol
                     if (!(listRoute.contains(list.get(i) + s)) && !(listRoute.contains(s + list.get(i)))) { //si la ruta no existe todavía
                         cola.add(list.get(i) + "");
                         listRoute.add(s + list.get(i)); //agregada a lista de rutas
@@ -122,27 +127,27 @@ public class GestionBusqueda implements Busqueda
     public void profundidad(String raiz) {
         String all;
         String[] parts;
-        String almacena="";
+        String almacena = "";
         String varO, varC;
-        
-        //Compara la raiz con el destino
-        if(!raiz.equals(grafo.getDestino())){
-        all = nodos.llaves.values() + "";
-        parts = all.split(" ");
 
-        //SI LA VARIBLE PARTS POSICION [I] ES IGUAL A ORIGEN
-        for (int i = 0; i < parts.length; i++) {
-            if (parts[i].equals("["+raiz+"]")) {
-                list.add(parts[i + 1].substring(1, 2));
+        //Compara la raiz con el destino
+        if (!raiz.equals(grafo.getDestino())) {
+            all = nodos.llaves.values() + "";
+            parts = all.split(" ");
+
+            //SI LA VARIBLE PARTS POSICION [I] ES IGUAL A ORIGEN
+            for (int i = 0; i < parts.length; i++) {
+                if (parts[i].equals("[" + raiz + "]")) {
+                    list.add(parts[i + 1].substring(1, 2));
 //                almacena+=(parts[i + 1].substring(1, 2));      
+                }
             }
-        }
 //        char[] letras = almacena.toCharArray();
 //        java.util.Arrays.sort(letras);
 //        String ordenada = new String(letras);
 //        list.add(ordenada);
 //              
-        cola.add(raiz);
+            cola.add(raiz);
 //        for(int i=0;i<list.size();i++){
 //            varO=(list.get(cnodos)+"").substring(0,1);
 //            varC=(list.get(cnodos)+"").substring(0);
@@ -150,14 +155,13 @@ public class GestionBusqueda implements Busqueda
 //        //profundidad(varO);
 //            System.out.println("almacena");
 //        }
-        System.out.println("Se encontró ruta\nCaminos:");
-            System.out.println("Raiz: "+raiz);
-            printRuta(list);
-            
-        }else{
             System.out.println("Se encontró ruta\nCaminos:");
-            System.out.println(raiz+"->"+grafo.getDestino());
-            }    
+            System.out.println("Raiz: " + raiz);
+            printRuta(list);
+
+        } else {
+            System.out.println("Se encontró ruta\nCaminos:");
+            System.out.println(raiz + "->" + grafo.getDestino());
+        }
     }
-    
 } // Fin de la clase 
