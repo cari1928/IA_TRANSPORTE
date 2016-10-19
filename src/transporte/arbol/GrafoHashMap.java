@@ -13,7 +13,7 @@ public class GrafoHashMap {
         
     }
 
-    public void add(String origen, String destino, int costo) {
+    public void add(String origen, String destino, String costo) {
         String llave = origen + destino;
         nodoHash n = new nodoHash(llave, origen, destino, costo);
         llaves.put(llave, n);
