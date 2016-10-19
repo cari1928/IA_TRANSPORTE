@@ -7,10 +7,8 @@ public class GrafoHashMap {
 
     public HashMap<String, nodoHash> llaves;
 
-    public GrafoHashMap() 
-    {
+    public GrafoHashMap() {
         llaves = new HashMap<>();
-        
     }
 
     public void add(String origen, String destino, String costo) {
@@ -31,15 +29,12 @@ public class GrafoHashMap {
     public nodoHash buscar(String llave) {
         return llaves.get(llave);
     }
-    
-    
-    public Collection<nodoHash> values()
-    {
+
+    public Collection<nodoHash> values() {
         return llaves.values();
     }
-    
-    public HashMap<String, nodoHash> getLlaves()
-    {
+
+    public HashMap<String, nodoHash> getLlaves() {
         return llaves;
     }
 }

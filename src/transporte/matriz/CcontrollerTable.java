@@ -34,13 +34,15 @@ public class CcontrollerTable {
      * @param Dimencion capacidad de la matriz
      */
     public void Crear_Matriz(JTable Matriz, int Dimencion, String type) {
-        ModeloTabla DTM = new ModeloTabla(createColumns(Dimencion), 1, type);
+        ModeloTabla DTM;
         switch (type) {
             case "matrix":
+                DTM = new ModeloTabla(createColumns(Dimencion), Dimencion, type);
                 grafoTab.setRedGrafo(DTM);
                 Matriz.setModel(grafoTab.getRedGrafo());
                 break;
             case "array":
+                DTM = new ModeloTabla(createColumns(Dimencion), Dimencion, type);
                 nodosTab.setRedGrafo(DTM);
                 Matriz.setModel(nodosTab.getRedGrafo());
                 break;
@@ -74,7 +76,7 @@ public class CcontrollerTable {
      * @return Devuelve la matriz de adyacencia que el usuario teclee
      */
     public String[][] getArray() {
-        return grafoTab.getRedGrafo().getArray();
+        return grafoTab.getRedGrafo().getMatrix();
     } // Fin del metodo
 
     /**

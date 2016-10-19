@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/C:/Users/Radogan/Documents/NetBeansProjects/IA_TRANSPORTE/src/transporte/main/CMain.java</file>
+        <file>file:/C:/Users/Radogan/Documents/NetBeansProjects/IA_TRANSPORTE/src/transporte/matriz/TablaNodos.java</file>
+        <file>file:/C:/Users/Radogan/Documents/NetBeansProjects/IA_TRANSPORTE/src/transporte/arbol/index.java</file>
+    </open-files>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Daniel/OneDrive/ARCHIVOS%20ITC/SEMESTRE%208/INTELIGENCIA%20ARTIFICIAL/PARCIAL%203/IA_TRANSPORTE_V1.01/src/transporte/grafo/Transporte.java</file>
-            <file>file:/C:/Users/Daniel/OneDrive/ARCHIVOS%20ITC/SEMESTRE%208/INTELIGENCIA%20ARTIFICIAL/PARCIAL%203/IA_TRANSPORTE_V1.01/src/transporte/arbol/index.java</file>
-            <file>file:/C:/Users/Daniel/OneDrive/ARCHIVOS%20ITC/SEMESTRE%208/INTELIGENCIA%20ARTIFICIAL/PARCIAL%203/IA_TRANSPORTE_V1.01/src/transporte/arbol/GrafoHashMap.java</file>
-            <file>file:/C:/Users/Daniel/OneDrive/ARCHIVOS%20ITC/SEMESTRE%208/INTELIGENCIA%20ARTIFICIAL/PARCIAL%203/IA_TRANSPORTE_V1.01/src/transporte/arbol/nodoHash.java</file>
-            <file>file:/C:/Users/Daniel/OneDrive/ARCHIVOS%20ITC/SEMESTRE%208/INTELIGENCIA%20ARTIFICIAL/PARCIAL%203/IA_TRANSPORTE_V1.01/src/transporte/grafo/GestionBusqueda.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

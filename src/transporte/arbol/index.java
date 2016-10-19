@@ -1,7 +1,7 @@
 
 package transporte.arbol;
 
-import javafx.beans.binding.StringBinding;
+//import javafx.beans.binding.StringBinding;
 
 /**
  *Estructura del archivo indice 

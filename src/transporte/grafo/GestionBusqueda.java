@@ -39,7 +39,7 @@ public class GestionBusqueda implements Busqueda
         list.add("");
 
         //Se llena hashMap
-        String[][] tableData = this.table.getRedGrafo().getArray();
+        String[][] tableData = this.table.getRedGrafo().getMatrix();
         this.nodos = fillHashMap(tableData);
     }
     
