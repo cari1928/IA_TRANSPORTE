@@ -17,6 +17,12 @@ public class GrafoHashMap {
         llaves.put(llave, n);
     }
 
+    public void add(String origen, String destino, String descOrigen, String costo) {
+        String llave = origen + destino; //relación
+        nodoHash tdaNodo = new nodoHash(llave, origen, descOrigen, destino, costo);
+        llaves.put(llave, tdaNodo); //se guarda toda la info en el hashmap
+    }
+
     @Override
     public String toString() {
         String ret = "";

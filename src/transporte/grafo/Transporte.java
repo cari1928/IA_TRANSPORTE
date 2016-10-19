@@ -53,8 +53,8 @@ public class Transporte {
             file.seek(file.length()); //nos situamos al final del fichero
 
             file.writeChars(writeString(element.getLlave(), 1).toString());
-            file.writeChars(writeString(element.getDescripcion(), 30).toString());
-            file.writeChars(writeString(element.getRelacion(), 2).toString());
+            file.writeChars(writeString(element.getOrigen(), 30).toString());
+            file.writeChars(writeString(element.getDestino(), 2).toString());
             file.writeChars(writeString(element.getCosto(), 15).toString());
             System.out.println(file.length());
         }
@@ -83,8 +83,8 @@ public class Transporte {
                 file.seek(desplaza);
 
                 file.writeChars(writeString(element.getLlave(), 1).toString());
-                file.writeChars(writeString(element.getDescripcion(), 30).toString());
-                file.writeChars(writeString(element.getRelacion(), 2).toString());
+                file.writeChars(writeString(element.getOrigen(), 30).toString());
+                file.writeChars(writeString(element.getDestino(), 2).toString());
                 file.writeChars(writeString(element.getCosto(), 15).toString());
             }
         } else {
@@ -146,9 +146,9 @@ public class Transporte {
                 readfile.seek(desplaza);
                 registro = new nodoHash();
                 registro.setLlave(readString(readfile, 1));// Llave
-                registro.setDescripcion(readString(readfile, 30)); // Descripcion
-                registro.setRelacion(readString(readfile, 2));// Relacion 
-                registro.setRelacion(readString(readfile, 15)); // Costo 
+                registro.setOrigen(readString(readfile, 30)); // Descripcion
+                registro.setDestino(readString(readfile, 2));// Relacion 
+                registro.setDestino(readString(readfile, 15)); // Costo 
             }
         } else {
             registro = null;

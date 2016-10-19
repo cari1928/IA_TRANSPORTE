@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.JTableHeader;
 import transporte.arbol.GrafoHashMap;
 import transporte.grafo.GestionBusqueda;
 import transporte.grafo.TDAInfo;
@@ -197,7 +199,6 @@ public class Tabla extends javax.swing.JFrame {
 
         manager = new GestionBusqueda(this, info, nodos);
         if (Metodo.equals("Anchura")) {
-            //Llamar a l metodo de anchura
             manager.anchura(Nodo_Origen, false);
         } else {
             manager.profundidad(Nodo_Origen);
@@ -214,6 +215,10 @@ public class Tabla extends javax.swing.JFrame {
 
     public void setRedGrafo(ModeloTabla tipo) {
         this.redGrafo = tipo;
+    }
+
+    public JTableHeader getTableHeader() {
+        return Matriz.getTableHeader();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Buscar;
