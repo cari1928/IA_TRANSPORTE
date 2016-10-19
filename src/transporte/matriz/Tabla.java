@@ -12,30 +12,28 @@ import transporte.grafo.Transporte;
 /**
  * Interfaz encargada de pedir la informacion del grafo
  *
- * @author shen
+ *
  * @author alphaGo
  */
 public class Tabla extends javax.swing.JFrame {
-    
+
     CcontrollerTable pasa = null;
     private GestionBusqueda manager;
     private Transporte trans;
     private ModeloTabla redGrafo;
-    private String[] Nodos;
-    
+
     public Tabla(String[] Nodos) {
         initComponents();
         setLocationRelativeTo(null);
-        this.Nodos = Nodos;
-        pasa = new CcontrollerTable(this);
-        pasa.Crear_Matriz(Matriz, this.Nodos.length, "matrix");
-        
+        pasa = new CcontrollerTable(this, Nodos);
+        pasa.Crear_Matriz(Matriz, Nodos.length, "matrix");
+
         Destino.setEnabled(false);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -163,31 +161,31 @@ public class Tabla extends javax.swing.JFrame {
 
     //metodo que lee la tabla y la guarda en el archivo
     private void Guardar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Guardar
-        
+
         if (JOptionPane.showInputDialog("Es corecta la matriz? \nSi o No").equalsIgnoreCase("si")) {
             JOptionPane.showMessageDialog(null, "Matriz Guardada");
             pasa.printArray(pasa.getArray());
-            
+
             trans = new Transporte(pasa.getArray());
             try {
-                //trans.writeAll();
-                //trans.readSecuential();
+                trans.writeAll();
+                trans.readSecuential();
                 System.out.println(trans.getRegistro(1));
             } catch (IOException ex) {
                 Logger.getLogger(Tabla.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
-        
-        
+
+
     }//GEN-LAST:event_Guardar
-    
+
     private void Carga_Matriz(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Carga_Matriz
         // TODO add your handling code here:
         Archivo Accion = new Archivo();
         Accion.Cargar(Matriz);
     }//GEN-LAST:event_Carga_Matriz
-    
+
     private void Buscar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Buscar
         // TODO add your handling code here:
 
@@ -196,7 +194,7 @@ public class Tabla extends javax.swing.JFrame {
         String Nodo_Origen = Origen.getText();
         String Nodo_Destino = Destino.getText();
         TDAInfo info = new TDAInfo(null, Nodo_Origen, Nodo_Destino, 0);
-        
+
         manager = new GestionBusqueda(this, info, nodos);
         if (Metodo.equals("Anchura")) {
             //Llamar a l metodo de anchura
@@ -205,15 +203,15 @@ public class Tabla extends javax.swing.JFrame {
             manager.profundidad(Nodo_Origen);
         }
     }//GEN-LAST:event_Buscar
-    
+
     public CcontrollerTable getTable() {
         return pasa;
     }
-    
+
     public ModeloTabla getRedGrafo() {
         return redGrafo;
     }
-    
+
     public void setRedGrafo(ModeloTabla tipo) {
         this.redGrafo = tipo;
     }

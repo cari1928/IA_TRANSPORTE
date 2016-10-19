@@ -7,7 +7,7 @@ import javax.swing.table.TableModel;
  * Clase para modelos personalizados para las tablas
  *
  * @see AbstractTableModel Implementa un Modelo de tabla
- * @author Martinez Sierra Daniel
+ * @author alphaGo
  */
 public class ModeloTabla extends AbstractTableModel implements TableModel {
 

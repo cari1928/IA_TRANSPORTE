@@ -6,21 +6,23 @@ import javax.swing.table.TableModel;
 /**
  * Clase que controla la vista de la tabla
  *
- * @author AlphaGo
+ * @author alphaGo
  */
 public class CcontrollerTable {
     //Referencia de la interrfaz tabla 
 
     private Tabla grafoTab = null;
     private TablaNodos nodosTab = null;
+    private String[] header = null;
 
     /**
      * Recibe como referencia la interfaz grafica utilizada
      *
      * @param pTable Recibe la ventana mostrada al usuario
      */
-    public CcontrollerTable(Tabla pTable) {
+    public CcontrollerTable(Tabla pTable, String[] header) {
         this.grafoTab = pTable;
+        this.header = header;
     }
 
     public CcontrollerTable(TablaNodos pTable) {
@@ -37,7 +39,7 @@ public class CcontrollerTable {
         ModeloTabla DTM;
         switch (type) {
             case "matrix":
-                DTM = new ModeloTabla(createColumns(Dimencion), Dimencion, type);
+                DTM = new ModeloTabla(header, Dimencion, type);
                 grafoTab.setRedGrafo(DTM);
                 Matriz.setModel(grafoTab.getRedGrafo());
                 break;
