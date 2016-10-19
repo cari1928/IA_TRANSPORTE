@@ -14,19 +14,19 @@ import transporte.grafo.Transporte;
  * @author alphaGo
  */
 public class TablaNodos extends javax.swing.JFrame {
-    
+
     CcontrollerTable pasa = null;
     private GestionBusqueda manager;
     private Transporte trans;
     private ModeloTabla redGrafo;
-    
+
     public TablaNodos() {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
         pasa = new CcontrollerTable(this);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -50,7 +50,7 @@ public class TablaNodos extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(Matriz);
 
-        jButton1.setText("Nueva Tabla");
+        jButton1.setText("Nodos");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -118,43 +118,43 @@ public class TablaNodos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ingresa Un numero", "Aviso", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-    
+
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
         if (!pasa.checkMatrix(Matriz)) { //matrix didn't complete all the checks successfull
             JOptionPane.showMessageDialog(null, "Completa la matriz", "Aviso", JOptionPane.ERROR_MESSAGE);
         } else {
-            Tabla table = new Tabla(getArray(Matriz.getModel(), Matriz.getTableHeader()));
+            Tabla table = new Tabla(getArray(Matriz.getModel(), Matriz.getTableHeader(), "content"));
             setVisible(false);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
-    
-    public String[][] getArray(TableModel tableModel, JTableHeader tableHeader) {
+
+    //Permite obtener un arreglo con el contenido ingresado por el usuario o el encabezado del table model
+    public String[] getArray(TableModel tableModel, JTableHeader tableHeader, String type) {
         TableColumnModel tcModel = tableHeader.getColumnModel(); //cabecera de la tabla
         TableColumn tColumn;
         int cols = tableModel.getColumnCount();
-        int rows = tableModel.getRowCount();
-        String[][] temp = new String[cols][rows + 1]; //+1 por el encabezado
+        String[] temp = new String[cols]; //+1 por el encabezado
 
         for (int i = 0; i < cols; i++) {
-            //se obtienen los valores del encabezado
-            tColumn = tcModel.getColumn(i);
-            temp[i][0] = tColumn.getHeaderValue().toString();
-
-            //se obtiene el contenido de la tabla
-            temp[i][1] = tableModel.getValueAt(0, i).toString();
+            if (type.equals("header")) { //regresa el header
+                tColumn = tcModel.getColumn(i);
+                temp[i] = tColumn.getHeaderValue().toString();
+            } else { //type = "content", regresa el contenido ingresado por el usuario
+                temp[i] = tableModel.getValueAt(0, i).toString();
+            }
         }
         return temp;
     }
-    
+
     public CcontrollerTable getTable() {
         return pasa;
     }
-    
+
     public ModeloTabla getRedGrafo() {
         return redGrafo;
     }
-    
+
     public void setRedGrafo(ModeloTabla tipo) {
         this.redGrafo = tipo;
     }

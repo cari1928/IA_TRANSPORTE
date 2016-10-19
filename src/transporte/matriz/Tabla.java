@@ -16,32 +16,32 @@ import transporte.grafo.Transporte;
  * @author alphaGo
  */
 public class Tabla extends javax.swing.JFrame {
-
+    
     CcontrollerTable pasa = null;
     private GestionBusqueda manager;
     private Transporte trans;
     private ModeloTabla redGrafo;
-    private String[][] descNodos;
-
-    public Tabla(String[][] descNodos) {
+    private String[] Nodos;
+    
+    public Tabla(String[] Nodos) {
         initComponents();
         setLocationRelativeTo(null);
+        this.Nodos = Nodos;
         pasa = new CcontrollerTable(this);
-        this.descNodos = descNodos;
-
+        pasa.Crear_Matriz(Matriz, this.Nodos.length, "matrix");
+        
+        Destino.setEnabled(false);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         Matriz = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        Dimencion = new javax.swing.JTextField();
         Guardar = new javax.swing.JButton();
         Carga_Matriz = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -64,13 +64,6 @@ public class Tabla extends javax.swing.JFrame {
             }
         ));
         jScrollPane1.setViewportView(Matriz);
-
-        jButton1.setText("Nueva Tabla");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         Guardar.setText("Guardar");
         Guardar.addActionListener(new java.awt.event.ActionListener() {
@@ -133,10 +126,7 @@ public class Tabla extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
                         .addComponent(Buscar))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Dimencion, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(149, 149, 149)
+                        .addGap(282, 282, 282)
                         .addComponent(Carga_Matriz)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Guardar)
@@ -151,9 +141,7 @@ public class Tabla extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Carga_Matriz)
-                    .addComponent(Guardar)
-                    .addComponent(jButton1)
-                    .addComponent(Dimencion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Guardar))
                 .addGap(7, 7, 7)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -173,24 +161,13 @@ public class Tabla extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        String dato = Dimencion.getText();
-
-        if (dato.length() > 0) {
-            pasa.Crear_Matriz(Matriz, Integer.parseInt(dato.trim()), "matrix");
-        } else {
-            JOptionPane.showMessageDialog(null, "Ingresa Un numero", "Aviso", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     //metodo que lee la tabla y la guarda en el archivo
     private void Guardar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Guardar
-
+        
         if (JOptionPane.showInputDialog("Es corecta la matriz? \nSi o No").equalsIgnoreCase("si")) {
             JOptionPane.showMessageDialog(null, "Matriz Guardada");
             pasa.printArray(pasa.getArray());
-
+            
             trans = new Transporte(pasa.getArray());
             try {
                 //trans.writeAll();
@@ -199,18 +176,18 @@ public class Tabla extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(Tabla.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
         }
-
-
+        
+        
     }//GEN-LAST:event_Guardar
-
+    
     private void Carga_Matriz(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Carga_Matriz
         // TODO add your handling code here:
         Archivo Accion = new Archivo();
         Accion.Cargar(Matriz);
     }//GEN-LAST:event_Carga_Matriz
-
+    
     private void Buscar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Buscar
         // TODO add your handling code here:
 
@@ -219,7 +196,7 @@ public class Tabla extends javax.swing.JFrame {
         String Nodo_Origen = Origen.getText();
         String Nodo_Destino = Destino.getText();
         TDAInfo info = new TDAInfo(null, Nodo_Origen, Nodo_Destino, 0);
-
+        
         manager = new GestionBusqueda(this, info, nodos);
         if (Metodo.equals("Anchura")) {
             //Llamar a l metodo de anchura
@@ -228,15 +205,15 @@ public class Tabla extends javax.swing.JFrame {
             manager.profundidad(Nodo_Origen);
         }
     }//GEN-LAST:event_Buscar
-
+    
     public CcontrollerTable getTable() {
         return pasa;
     }
-
+    
     public ModeloTabla getRedGrafo() {
         return redGrafo;
     }
-
+    
     public void setRedGrafo(ModeloTabla tipo) {
         this.redGrafo = tipo;
     }
@@ -244,12 +221,10 @@ public class Tabla extends javax.swing.JFrame {
     private javax.swing.JButton Buscar;
     private javax.swing.JButton Carga_Matriz;
     private javax.swing.JTextField Destino;
-    private javax.swing.JTextField Dimencion;
     private javax.swing.JButton Guardar;
     private javax.swing.JTable Matriz;
     private javax.swing.JComboBox<String> Metodos_Busqueda;
     private javax.swing.JTextField Origen;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
