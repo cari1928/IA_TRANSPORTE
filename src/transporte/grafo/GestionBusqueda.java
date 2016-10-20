@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import transporte.arbol.GrafoHashMap;
 import transporte.matriz.Tabla;
 
@@ -37,72 +40,102 @@ public class GestionBusqueda implements Busqueda {
         list = new ArrayList();
         list.add("");
 
-        //Se llena hashMap
-        String[][] tableData = this.table.getRedGrafo().getMatrix();
-        this.nodos = fillHashMap(tableData);
+        this.nodos = fillHashMap();
     }
 
-    public GrafoHashMap fillHashMap(String[][] array) {
-        GrafoHashMap map = new GrafoHashMap();
+    //se llena el hashmap
+    public GrafoHashMap fillHashMap() {
+        String[][] tableData = this.table.getRedGrafo().getMatrix(); //contenido de la matriz
+
+        //Obtener el encabezado
+        JTableHeader tTemp = this.table.getTableHeader(); //contenido del encabezado
+        TableColumnModel tcModel = tTemp.getColumnModel(); //cabecera de la tabla
+        TableColumn tColumn;
+
+        GrafoHashMap tempMap = new GrafoHashMap();
         char origen, destino;
-        for (byte i = 0; i < array.length; i++) {
-            for (byte j = 0; j < array[0].length; j++) {
-                //no hay valores vacíos o nulos
-                if (!array[i][j].equals("null") || !array[i][j].equals("") || !(array[i][j] == null)) {
-                    origen = (char) (i + 65); //lo convierte a letra
-                    destino = (char) (j + 65); //lo convierte a letra
-                    map.add(origen + "", destino + "", (array[i][j]));
+
+        for (byte i = 0; i < tableData.length; i++) {
+            for (byte j = 0; j < tableData[0].length; j++) {
+                if (tableData[i][j] != null) {
+                    if (!tableData[i][j].equals("null") && !tableData[i][j].equals("")) { //para no tener en cuenta valores nulos
+                        origen = (char) (i + 65); //lo convierte a letra
+                        destino = (char) (j + 65); //lo convierte a letra
+                        tColumn = tcModel.getColumn(i); //se posiciona en el encabezado
+                        tempMap.add(origen + "", destino + "", tColumn.getHeaderValue().toString(), (tableData[i][j]));
+                    }
                 }
             }
         }
-        return map;
+        return tempMap;
     }
 
     public void printRuta(ArrayList pList) {
+        StringBuilder builder;
         String cad = "";
+        String cad2 = ""; //2do tipo de ruta
+
+        String rel, rel2, origen, destino, descOrigen, descDestino, costo;
+
         for (int i = 0; i < pList.size(); i++) {
+            //se obtiene la relación
+            rel = pList.get(i).toString();
+
+            //invierte las letras
+            builder = new StringBuilder(rel);
+            rel2 = builder.reverse().toString();
+
+            //tipo de ruta 1
             cad += pList.get(i) + "->";
+
+            //tipo de ruta 2
+            origen = nodos.llaves.get(rel).getOrigen();
+            destino = nodos.llaves.get(rel).getDestino();
+            descOrigen = nodos.llaves.get(rel).getDescOrigen();
+            descDestino = nodos.llaves.get(rel2).getDescOrigen();
+            costo = nodos.llaves.get(rel).getCosto();
+
+            cad2 += origen + ":" + descOrigen + " " + costo + " " + destino + ":" + descDestino + "\n";
         }
         System.out.println(cad.substring(0, cad.length() - 2));
+        System.out.println(cad2);
     }
 
     @Override
     public void anchura(String s, boolean flagRoot) {
         String values;
         String[] parts;
-        ArrayList list = new ArrayList();
+        ArrayList internalList = new ArrayList();
 
         if (!flagRoot) { // si se trata del nodo raiz
             cola.add(s); //se inserta
         }
 
         if (cola.size() > 0) {
-            s = cola.poll();
+            s = cola.poll(); //saca el elemento
             ruta.add(s); //se va creando el camino
-            if (!s.equals(grafo.getDestino())) { //no es el destino
-                //se obtienen los nodos hijos
-                values = nodos.llaves.values() + "";
-                parts = values.split(" ");
-                //Obtiene los nodos con los que se conecta directamente
-                for (int i = 0; i < parts.length; i++) {
-                    if (parts[i].equals("[" + s + "]")) {
-                        list.add(parts[i + 1].substring(1, 2));
-                    }
+
+            //se obtienen los nodos hijos
+            values = nodos.llaves.values() + "";
+            parts = values.split(" ");
+            //Obtiene los nodos con los que se conecta directamente
+            for (int i = 0; i < parts.length; i++) {
+                if (parts[i].equals("[" + s + "]")) {
+                    internalList.add(parts[i + 1].substring(1, 2));
                 }
-                Collections.sort(list); //ordena alfabéticamente los elementos de la lista
-                for (int i = 0; i < list.size(); i++) { //inserta los hijos en el árbol
-                    if (!(listRoute.contains(list.get(i) + s)) && !(listRoute.contains(s + list.get(i)))) { //si la ruta no existe todavía
-                        cola.add(list.get(i) + "");
-                        listRoute.add(s + list.get(i)); //agregada a lista de rutas
-                    }
-                }
-                anchura(null, true);
-            } else {
-                System.out.println("Se encontró ruta\nCaminos:");
-                printRuta(listRoute);
             }
+            Collections.sort(internalList); //ordena alfabéticamente los elementos de la lista
+
+            for (int i = 0; i < internalList.size(); i++) { //inserta los hijos en el árbol
+                if (!(listRoute.contains(internalList.get(i) + s)) && !(listRoute.contains(s + internalList.get(i)))) { //si la ruta no existe todavía
+                    cola.add(internalList.get(i) + "");
+                    listRoute.add(s + internalList.get(i)); //agregada a lista de rutas
+                }
+            }
+            anchura(null, true);
         } else {
-            System.out.println("No se encontró alguna ruta");
+            System.out.println("Se terminó la búsqueda");
+            printRuta(listRoute); //para pruebas
         }
     }
 

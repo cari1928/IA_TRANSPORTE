@@ -7,32 +7,32 @@ import transporte.arbol.GrafoHashMap;
 import transporte.arbol.nodoHash;
 
 /**
- * Inteligencia Artificial Clase encargada de gestionar el archivo maestro para
- * alamacenar los datos
+ * * Inteligencia Artificial Clase encargada de gestionar el archivo maestro
+ * para alamacenar los datos
  *
  * @author AlphaGo
  */
-public class Transporte {
-
+public class RedSemantica {
     //Atributos de la clase
+
     private TDAInfo info;
     private GrafoHashMap grafoTransporte;
     private ArrayList<String> indice;
     private String[][] matrix;
     // CONSTANTES DE LA CLASE 
-    public static final short LONGITUD_REGISTO = 96;
+    public static final short LONGITUD_REGISTO = 38;
 
-    public Transporte() {
+    public RedSemantica() {
         grafoTransporte = new GrafoHashMap();
         matrix = new String[1][1];
     }
 
     /**
-     * Constructor de la clase
+     * * Constructor de la clase
      *
      * @param matrizAdy Recibe una matriz de adyacencia
      */
-    public Transporte(String[][] matrizAdy) {
+    public RedSemantica(String[][] matrizAdy) {
         if (matrizAdy != null) {
             this.matrix = matrizAdy;
             grafoTransporte = indexFile(matrizAdy);
@@ -40,7 +40,7 @@ public class Transporte {
     }//=====================FIN DEL CONSTRUCTOR====================================
 
     /**
-     * Metodo para escribir el archivo Maestro
+     * * Metodo para escribir el archivo Maestro
      *
      * @param element Elemento a escribir en el archivo Maestro
      * @throws java.io.IOException Lanza un error si la lectura del archivo
@@ -48,13 +48,13 @@ public class Transporte {
      */
     private void write(nodoHash element) throws IOException {
         System.out.println("Writing Object");
-        try (RandomAccessFile file = new RandomAccessFile("transporte", "rw")) {
+        try (RandomAccessFile file = new RandomAccessFile("masterFile", "rw")) {
             System.out.println(file.length());
             file.seek(file.length()); //nos situamos al final del fichero
 
-            file.writeChars(writeString(element.getLlave(), 1).toString());
-            file.writeChars(writeString(element.getDescripcion(), 30).toString());
-            file.writeChars(writeString(element.getRelacion(), 2).toString());
+            file.writeChars(writeString(element.getLlave(), 2).toString());
+            file.writeChars(writeString(element.getOrigen(), 1).toString());
+            file.writeChars(writeString(element.getDestino(), 1).toString());
             file.writeChars(writeString(element.getCosto(), 15).toString());
             System.out.println(file.length());
         }
@@ -62,7 +62,22 @@ public class Transporte {
     } //========================= FIN DEL METODO  ======================================
 
     /**
-     * Metodo para Actualizar el archivo maestro
+     * * Escribe todos los elementos en el archivo maestro
+     */
+    public void writeAll() {
+        try {
+            for (nodoHash n : grafoTransporte.values()) {
+                if (n != null) {
+                    write(n);
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+    } //========================= FIN DEL METODO  ======================================
+
+    /**
+     * * Actualiza el archivo maestro
      *
      * @param element Elemento a escribir en el archivo Maestro
      * @param indice Especifica la posicion en el archivo maestro
@@ -76,15 +91,15 @@ public class Transporte {
 
         // Valida que no se sobrebase el numero de elementos del registro
         if (indice <= cantidadRegistros() && indice > 0) {
-            try (RandomAccessFile file = new RandomAccessFile("transporte", "rw")) {
+            try (RandomAccessFile file = new RandomAccessFile("masterFile", "rw")) {
                 lreg = getLongitudRegistro(file);
                 direccionLogica = indice;
                 desplaza = (direccionLogica - 1) * lreg;
                 file.seek(desplaza);
 
-                file.writeChars(writeString(element.getLlave(), 1).toString());
-                file.writeChars(writeString(element.getDescripcion(), 30).toString());
-                file.writeChars(writeString(element.getRelacion(), 2).toString());
+                file.writeChars(writeString(element.getLlave(), 2).toString());
+                file.writeChars(writeString(element.getOrigen(), 1).toString());
+                file.writeChars(writeString(element.getDestino(), 1).toString());
                 file.writeChars(writeString(element.getCosto(), 15).toString());
             }
         } else {
@@ -93,20 +108,7 @@ public class Transporte {
     } //========================= FIN DEL METODO  ======================================
 
     /**
-     * Escribe todos los elementos en el archivo maestro
-     */
-    public void writeAll() {
-        try {
-            for (nodoHash n : grafoTransporte.values()) {
-                write(n);
-            }
-        } catch (IOException ex) {
-            System.out.println(ex);
-        }
-    } //========================= FIN DEL METODO  ======================================
-
-    /**
-     * Metodo para leer el archivo Secuencial
+     * * Metodo para leer el archivo Secuencial
      *
      * @throws IOException Lanza una excepcion en caso de que exista error en la
      * lectura
@@ -114,19 +116,19 @@ public class Transporte {
     public void readSecuential() throws IOException {
         long ap_actual, ap_final;
 
-        System.out.println("Read fileMaster");
-        try (RandomAccessFile readfile = new RandomAccessFile("transporte", "rw")) {
+        try (RandomAccessFile readfile = new RandomAccessFile("MasterFile", "rw")) {
             while ((ap_actual = readfile.getFilePointer()) != (ap_final = readfile.length())) {
-                System.out.println(readString(readfile, 1)); // Llave 
-                System.out.println(readString(readfile, 30)); // descripcion 
-                System.out.println(readString(readfile, 2)); //  relacion 
+                System.out.println("Read fileMaster");
+                System.out.println(readString(readfile, 2)); // Llave 
+                System.out.println(readString(readfile, 1)); // descripcion 
+                System.out.println(readString(readfile, 1)); //  relacion 
                 System.out.println(readString(readfile, 15)); //  costo                
             }
         }
     } //========================= FIN DEL METODO  ======================================
 
     /**
-     * Obtiene el registro segun una posicion indicad
+     * * Obtiene el registro segun una posicion indicado
      *
      * @param index especifica la posicion del registro
      * @return Obtiene un objeto del registo
@@ -138,17 +140,17 @@ public class Transporte {
         nodoHash registro;
 
         if (index <= cantidadRegistros() && index > 0) {
-            try (RandomAccessFile readfile = new RandomAccessFile("transporte", "r")) {
+            try (RandomAccessFile readfile = new RandomAccessFile("FileMaster", "r")) {
                 lreg = getLongitudRegistro(readfile);
 
                 dl = index;
                 desplaza = (dl - 1) * lreg;
                 readfile.seek(desplaza);
                 registro = new nodoHash();
-                registro.setLlave(readString(readfile, 1));// Llave
-                registro.setDescripcion(readString(readfile, 30)); // Descripcion
-                registro.setRelacion(readString(readfile, 2));// Relacion 
-                registro.setRelacion(readString(readfile, 15)); // Costo 
+                registro.setLlave(readString(readfile, 2));// Llave
+                registro.setOrigen(readString(readfile, 1)); // Descripcion
+                registro.setDestino(readString(readfile, 1));// Relacion 
+                registro.setCosto(readString(readfile, 15)); // Costo, **tenía setDestino, puede que era un error
             }
         } else {
             registro = null;
@@ -159,14 +161,16 @@ public class Transporte {
     } //========================= FIN DEL METODO  ======================================
 
     /**
-     * Metodo encargado de pasar la matriz de adyacencia y generar su llave
+     * * Metodo encargado de pasar la matriz de adyacencia y generar su llave
+     *
+     * @param array Representan los costos de la red semantica
      */
     private GrafoHashMap indexFile(String[][] array) {
         GrafoHashMap map = new GrafoHashMap();
         char origen, destino;
         for (byte i = 0; i < array.length; i++) {
             for (byte j = 0; j < array[0].length; j++) {
-                if (array[i][j] != null) {
+                if (!array[i][j].equals("")) {
                     origen = (char) (i + 65); //lo convierte a letra
                     destino = (char) (j + 65); //lo convierte a letra
                     map.add(origen + "", destino + "", (array[i][j]));
@@ -187,9 +191,9 @@ public class Transporte {
         long longitudRegistro;
         try {
             //Leer un registro completo
-            readString(file, 1); // Llave
-            readString(file, 30); //  descripcion
-            readString(file, 2); // Relacion 
+            readString(file, 2); // Llave
+            readString(file, 1); //  descripcion
+            readString(file, 1); // Relacion 
             readString(file, 15); // costo
             longitudRegistro = file.getFilePointer();
         } catch (IOException ex) {
@@ -200,13 +204,13 @@ public class Transporte {
     } //========================= FIN DEL METODO  ======================================
 
     /**
-     * Muestra la cantidad de registros en el archivo maestro
+     * * Muestra la cantidad de registros en el archivo maestro
      *
      * @return Cantidad de Registros
      */
     public long cantidadRegistros() {
         long cantidad;
-        try (RandomAccessFile readfile = new RandomAccessFile("transporte", "rw")) {
+        try (RandomAccessFile readfile = new RandomAccessFile("masterFile", "rw")) {
             cantidad = readfile.length() / LONGITUD_REGISTO;
         } catch (IOException e) {
             cantidad = 0; //No hay Registros
@@ -215,7 +219,7 @@ public class Transporte {
     }//========================= FIN DEL METODO  ======================================
 
     /**
-     * Metodo para obtener el hashMap
+     * * Metodo para obtener el hashMap
      *
      * @return Obtiene la representacion del archivo mastro
      */
@@ -250,16 +254,4 @@ public class Transporte {
         buffer.setLength(longitud);
         return buffer;
     }  //========================= FIN DEL METODO  ======================================
-
-    public static void main(String[] args) throws IOException {
-        Transporte nee = new Transporte();
-        //nee.write(new nodoHash("A", "cinetica","AB", "particula"));
-        //nee.readSecuential();
-        //nee.update(new nodoHash("C", "cinetica","AB", "particula"),7);
-
-        //System.out.println(nee.cantidadRegistros());
-        //nee.readSecuential();
-
-        System.out.println(nee.getRegistro(-5));
-    }
 } // Fin del metodo

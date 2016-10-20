@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.JTableHeader;
 import transporte.arbol.GrafoHashMap;
 import transporte.grafo.GestionBusqueda;
+import transporte.grafo.RedSemantica;
 import transporte.grafo.TDAInfo;
-import transporte.grafo.Transporte;
 
 /**
  * Interfaz encargada de pedir la informacion del grafo
@@ -19,7 +20,7 @@ public class Tabla extends javax.swing.JFrame {
 
     CcontrollerTable pasa = null;
     private GestionBusqueda manager;
-    private Transporte trans;
+    private RedSemantica trans;
     private ModeloTabla redGrafo;
 
     public Tabla(String[] Nodos) {
@@ -28,7 +29,6 @@ public class Tabla extends javax.swing.JFrame {
         pasa = new CcontrollerTable(this, Nodos);
         pasa.Crear_Matriz(Matriz, Nodos.length, "matrix");
 
-        Destino.setEnabled(false);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
@@ -41,14 +41,11 @@ public class Tabla extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         Matriz = new javax.swing.JTable();
         Guardar = new javax.swing.JButton();
-        Carga_Matriz = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         Metodos_Busqueda = new javax.swing.JComboBox<String>();
         Origen = new javax.swing.JTextField();
-        Destino = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        Buscar = new javax.swing.JButton();
+        continuar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -70,25 +67,18 @@ public class Tabla extends javax.swing.JFrame {
             }
         });
 
-        Carga_Matriz.setText("Cargar Matriz");
-        Carga_Matriz.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Carga_Matriz(evt);
-            }
-        });
-
         jLabel1.setText("Tipo de busqueda");
 
         Metodos_Busqueda.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Anchura", "Profundidad" }));
+        Metodos_Busqueda.setEnabled(false);
 
         jLabel2.setText("Origen");
 
-        jLabel3.setText("Distino");
-
-        Buscar.setText("Continuar");
-        Buscar.addActionListener(new java.awt.event.ActionListener() {
+        continuar.setText("Continuar");
+        continuar.setEnabled(false);
+        continuar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Buscar(evt);
+                continuar(evt);
             }
         });
 
@@ -117,19 +107,13 @@ public class Tabla extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Origen, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Destino, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
-                        .addComponent(Buscar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(282, 282, 282)
-                        .addComponent(Carga_Matriz)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Guardar)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(continuar)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(282, 282, 282)
+                .addComponent(Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(283, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,9 +121,7 @@ public class Tabla extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Carga_Matriz)
-                    .addComponent(Guardar))
+                .addComponent(Guardar)
                 .addGap(7, 7, 7)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -150,9 +132,7 @@ public class Tabla extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
                         .addComponent(Origen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3)
-                        .addComponent(Destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Buscar)))
+                        .addComponent(continuar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -163,14 +143,15 @@ public class Tabla extends javax.swing.JFrame {
     private void Guardar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Guardar
 
         if (JOptionPane.showInputDialog("Es corecta la matriz? \nSi o No").equalsIgnoreCase("si")) {
-            JOptionPane.showMessageDialog(null, "Matriz Guardada");
-            pasa.printArray(pasa.getArray());
-
-            trans = new Transporte(pasa.getArray());
+            trans = new RedSemantica(pasa.getArray());
             try {
                 trans.writeAll();
+                if (trans.cantidadRegistros() > 0) {
+                    JOptionPane.showMessageDialog(null, "Matriz Guardada", "Atencion", JOptionPane.INFORMATION_MESSAGE);
+                    habilitaCamposBusqueda(true);
+                }
+
                 trans.readSecuential();
-                System.out.println(trans.getRegistro(1));
             } catch (IOException ex) {
                 Logger.getLogger(Tabla.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -180,29 +161,21 @@ public class Tabla extends javax.swing.JFrame {
 
     }//GEN-LAST:event_Guardar
 
-    private void Carga_Matriz(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Carga_Matriz
-        // TODO add your handling code here:
-        Archivo Accion = new Archivo();
-        Accion.Cargar(Matriz);
-    }//GEN-LAST:event_Carga_Matriz
-
-    private void Buscar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Buscar
+    private void continuar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continuar
         // TODO add your handling code here:
 
         GrafoHashMap nodos = new GrafoHashMap();
         String Metodo = (String) Metodos_Busqueda.getSelectedItem(); //obtiene método de búsqueda
         String Nodo_Origen = Origen.getText();
-        String Nodo_Destino = Destino.getText();
-        TDAInfo info = new TDAInfo(null, Nodo_Origen, Nodo_Destino, 0);
+        TDAInfo info = new TDAInfo(null, Nodo_Origen, null, 0);
 
         manager = new GestionBusqueda(this, info, nodos);
         if (Metodo.equals("Anchura")) {
-            //Llamar a l metodo de anchura
             manager.anchura(Nodo_Origen, false);
         } else {
             manager.profundidad(Nodo_Origen);
         }
-    }//GEN-LAST:event_Buscar
+    }//GEN-LAST:event_continuar
 
     public CcontrollerTable getTable() {
         return pasa;
@@ -215,17 +188,24 @@ public class Tabla extends javax.swing.JFrame {
     public void setRedGrafo(ModeloTabla tipo) {
         this.redGrafo = tipo;
     }
+
+    public JTableHeader getTableHeader() {
+        return Matriz.getTableHeader();
+    }
+
+    public void habilitaCamposBusqueda(boolean flag) {
+        Metodos_Busqueda.setEnabled(flag);
+        Origen.setEnabled(flag);
+        continuar.setEnabled(flag);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Buscar;
-    private javax.swing.JButton Carga_Matriz;
-    private javax.swing.JTextField Destino;
     private javax.swing.JButton Guardar;
     private javax.swing.JTable Matriz;
     private javax.swing.JComboBox<String> Metodos_Busqueda;
     private javax.swing.JTextField Origen;
+    private javax.swing.JButton continuar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

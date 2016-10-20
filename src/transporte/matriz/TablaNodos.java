@@ -6,7 +6,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import transporte.grafo.GestionBusqueda;
-import transporte.grafo.Transporte;
 
 /**
  * Interfaz encargada de pedir la informacion del grafo
@@ -16,8 +15,6 @@ import transporte.grafo.Transporte;
 public class TablaNodos extends javax.swing.JFrame {
 
     CcontrollerTable pasa = null;
-    private GestionBusqueda manager;
-    private Transporte trans;
     private ModeloTabla redGrafo;
 
     public TablaNodos() {

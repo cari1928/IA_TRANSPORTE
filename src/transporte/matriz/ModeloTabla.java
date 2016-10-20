@@ -34,6 +34,7 @@ public class ModeloTabla extends AbstractTableModel implements TableModel {
      *
      * @param tituloColumn titulo de las columnas
      * @param dimensiones
+     * @param type Indica arreglo unidimensional o bidimensional
      */
     public ModeloTabla(String[] tituloColumn, Integer dimensiones, String type) {
         super();
@@ -47,9 +48,18 @@ public class ModeloTabla extends AbstractTableModel implements TableModel {
         switch (type) {
             case "matrix":
                 matrixManagerElements = new String[dimensiones][dimensiones];
+                for (int i = 0; i < dimensiones; i++) {
+                    for (int j = 0; j < dimensiones; j++) {
+                        matrixManagerElements[i][j] = "";
+                    }
+                }
                 break;
             case "array":
                 arrayManagerElements = new String[dimensiones];
+                arrayManagerElements = new String[dimensiones];
+                for (int i = 0; i < dimensiones; i++) {
+                    arrayManagerElements[i] = "";
+                }
                 break;
         }
     }

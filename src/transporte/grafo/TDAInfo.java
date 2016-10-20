@@ -1,9 +1,10 @@
-
 package transporte.grafo;
 
-/**Clase que almacena la informacion de un Registro*/
-public class TDAInfo 
-{
+/**
+ * Clase que almacena la informacion de un Registro
+ */
+public class TDAInfo {
+
     private String llave;
     private String origen;
     private String destino;
@@ -11,8 +12,6 @@ public class TDAInfo
 
     public TDAInfo() {
     }
-    
-    
 
     public TDAInfo(String llave, String origen, String destino, int costo) {
         this.llave = llave;
@@ -52,11 +51,9 @@ public class TDAInfo
     public void setCosto(int costo) {
         this.costo = costo;
     }
-    
-     
+
     @Override
-    public String toString() 
-    {
-        return  llave +" ["+origen+"] ("+destino+") Costo: "+costo;
+    public String toString() {
+        return llave + " [" + origen + "] (" + destino + ") Costo: " + costo;
     }
 }

@@ -9,7 +9,7 @@ import javax.swing.table.TableModel;
  * @author alphaGo
  */
 public class CcontrollerTable {
-    //Referencia de la interrfaz tabla 
+    //Atributos de la clase 
 
     private Tabla grafoTab = null;
     private TablaNodos nodosTab = null;
@@ -19,6 +19,7 @@ public class CcontrollerTable {
      * Recibe como referencia la interfaz grafica utilizada
      *
      * @param pTable Recibe la ventana mostrada al usuario
+     * @param header Recibe los titulos de la ventana
      */
     public CcontrollerTable(Tabla pTable, String[] header) {
         this.grafoTab = pTable;
@@ -34,6 +35,7 @@ public class CcontrollerTable {
      *
      * @param Matriz Recibe la tabla donde se almacena la matriz
      * @param Dimencion capacidad de la matriz
+     * @param type
      */
     public void Crear_Matriz(JTable Matriz, int Dimencion, String type) {
         ModeloTabla DTM;

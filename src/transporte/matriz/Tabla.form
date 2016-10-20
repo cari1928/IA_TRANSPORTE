@@ -37,22 +37,16 @@
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="Origen" min="-2" pref="40" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="Destino" min="-2" pref="40" max="-2" attributes="0"/>
-                      <EmptySpace pref="222" max="32767" attributes="0"/>
-                      <Component id="Buscar" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="282" max="-2" attributes="0"/>
-                      <Component id="Carga_Matriz" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="Guardar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="continuar" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="282" max="-2" attributes="0"/>
+              <Component id="Guardar" min="-2" pref="200" max="-2" attributes="0"/>
+              <EmptySpace pref="283" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -62,10 +56,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="Carga_Matriz" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="Guardar" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="Guardar" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="210" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -77,9 +68,7 @@
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="Origen" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="Destino" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="Buscar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="continuar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -112,14 +101,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Guardar"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="Carga_Matriz">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Cargar Matriz"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Carga_Matriz"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="text" type="java.lang.String" value="Tipo de busqueda"/>
@@ -133,6 +114,7 @@
             <StringItem index="1" value="Profundidad"/>
           </StringArray>
         </Property>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -140,24 +122,18 @@
     </Component>
     <Component class="javax.swing.JTextField" name="Origen">
     </Component>
-    <Component class="javax.swing.JTextField" name="Destino">
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
         <Property name="text" type="java.lang.String" value="Origen"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel3">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Distino"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="Buscar">
+    <Component class="javax.swing.JButton" name="continuar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Continuar"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Buscar"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="continuar"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">

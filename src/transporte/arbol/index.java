@@ -1,14 +1,11 @@
-
 package transporte.arbol;
 
 //import javafx.beans.binding.StringBinding;
-
 /**
- *Estructura del archivo indice 
- * @author Headcruser87
+ * Estructura del archivo indice
  */
-public class index 
-{
+public class index {
+
     private String llave;
     private Integer direccionLogica;
 
@@ -20,9 +17,8 @@ public class index
     public Integer getDireccionLogica() {
         return direccionLogica;
     }
-    
-    //Setters 
 
+    //Setters 
     public void setLlave(String llave) {
         this.llave = llave;
     }
@@ -33,7 +29,7 @@ public class index
 
     @Override
     public String toString() {
-        StringBuilder cadena=new StringBuilder();
+        StringBuilder cadena = new StringBuilder();
         return cadena.append("Index").append(": ").append(llave).append(" ").append(direccionLogica).toString();
-    }    
+    }
 } //Fin de la clase 
