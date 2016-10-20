@@ -4,10 +4,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-<<<<<<< HEAD
-=======
-import javax.swing.JTable;
->>>>>>> 2b710fa6f208b25e1383fedc09cff2591ac766e3
 import javax.swing.table.JTableHeader;
 import transporte.arbol.GrafoHashMap;
 import transporte.grafo.GestionBusqueda;
@@ -196,15 +192,12 @@ public class Tabla extends javax.swing.JFrame {
     public JTableHeader getTableHeader() {
         return Matriz.getTableHeader();
     }
-<<<<<<< HEAD
 
     public void habilitaCamposBusqueda(boolean flag) {
         Metodos_Busqueda.setEnabled(flag);
         Origen.setEnabled(flag);
         continuar.setEnabled(flag);
     }
-=======
->>>>>>> 2b710fa6f208b25e1383fedc09cff2591ac766e3
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Guardar;
     private javax.swing.JTable Matriz;

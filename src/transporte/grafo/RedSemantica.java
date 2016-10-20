@@ -52,15 +52,9 @@ public class RedSemantica {
             System.out.println(file.length());
             file.seek(file.length()); //nos situamos al final del fichero
 
-<<<<<<< HEAD:src/transporte/grafo/RedSemantica.java
             file.writeChars(writeString(element.getLlave(), 2).toString());
             file.writeChars(writeString(element.getOrigen(), 1).toString());
             file.writeChars(writeString(element.getDestino(), 1).toString());
-=======
-            file.writeChars(writeString(element.getLlave(), 1).toString());
-            file.writeChars(writeString(element.getOrigen(), 30).toString());
-            file.writeChars(writeString(element.getDestino(), 2).toString());
->>>>>>> 2b710fa6f208b25e1383fedc09cff2591ac766e3:src/transporte/grafo/Transporte.java
             file.writeChars(writeString(element.getCosto(), 15).toString());
             System.out.println(file.length());
         }
@@ -103,15 +97,9 @@ public class RedSemantica {
                 desplaza = (direccionLogica - 1) * lreg;
                 file.seek(desplaza);
 
-<<<<<<< HEAD:src/transporte/grafo/RedSemantica.java
                 file.writeChars(writeString(element.getLlave(), 2).toString());
                 file.writeChars(writeString(element.getOrigen(), 1).toString());
                 file.writeChars(writeString(element.getDestino(), 1).toString());
-=======
-                file.writeChars(writeString(element.getLlave(), 1).toString());
-                file.writeChars(writeString(element.getOrigen(), 30).toString());
-                file.writeChars(writeString(element.getDestino(), 2).toString());
->>>>>>> 2b710fa6f208b25e1383fedc09cff2591ac766e3:src/transporte/grafo/Transporte.java
                 file.writeChars(writeString(element.getCosto(), 15).toString());
             }
         } else {
@@ -159,17 +147,10 @@ public class RedSemantica {
                 desplaza = (dl - 1) * lreg;
                 readfile.seek(desplaza);
                 registro = new nodoHash();
-<<<<<<< HEAD:src/transporte/grafo/RedSemantica.java
                 registro.setLlave(readString(readfile, 2));// Llave
                 registro.setOrigen(readString(readfile, 1)); // Descripcion
                 registro.setDestino(readString(readfile, 1));// Relacion 
                 registro.setCosto(readString(readfile, 15)); // Costo, **tenía setDestino, puede que era un error
-=======
-                registro.setLlave(readString(readfile, 1));// Llave
-                registro.setOrigen(readString(readfile, 30)); // Descripcion
-                registro.setDestino(readString(readfile, 2));// Relacion 
-                registro.setDestino(readString(readfile, 15)); // Costo 
->>>>>>> 2b710fa6f208b25e1383fedc09cff2591ac766e3:src/transporte/grafo/Transporte.java
             }
         } else {
             registro = null;

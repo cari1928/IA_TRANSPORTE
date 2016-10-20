@@ -7,10 +7,6 @@ import java.util.Queue;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-<<<<<<< HEAD
-=======
-import javax.swing.table.TableModel;
->>>>>>> 2b710fa6f208b25e1383fedc09cff2591ac766e3
 import transporte.arbol.GrafoHashMap;
 import transporte.matriz.Tabla;
 
@@ -45,10 +41,6 @@ public class GestionBusqueda implements Busqueda {
         list.add("");
 
         this.nodos = fillHashMap();
-<<<<<<< HEAD
-=======
-
->>>>>>> 2b710fa6f208b25e1383fedc09cff2591ac766e3
     }
 
     //se llena el hashmap
@@ -66,11 +58,7 @@ public class GestionBusqueda implements Busqueda {
         for (byte i = 0; i < tableData.length; i++) {
             for (byte j = 0; j < tableData[0].length; j++) {
                 if (tableData[i][j] != null) {
-<<<<<<< HEAD
                     if (!tableData[i][j].equals("null") && !tableData[i][j].equals("")) { //para no tener en cuenta valores nulos
-=======
-                    if (!tableData[i][j].equals("null") || !tableData[i][j].equals("")) { //para no tener en cuenta valores nulos
->>>>>>> 2b710fa6f208b25e1383fedc09cff2591ac766e3
                         origen = (char) (i + 65); //lo convierte a letra
                         destino = (char) (j + 65); //lo convierte a letra
                         tColumn = tcModel.getColumn(i); //se posiciona en el encabezado
